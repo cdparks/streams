@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+set -eux
+
+find . -name 'Stream.dump*' -or -name 'Main.dump*'
