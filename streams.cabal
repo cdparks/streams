@@ -5,8 +5,22 @@ cabal-version: 1.12
 -- see: https://github.com/sol/hpack
 
 name:           streams
-version:        0.0.0
+version:        0.1.0.0
+description:    Please see the README on GitHub at <https://github.com/cdparks/streams#readme>
+category:       Tutorials
+homepage:       https://github.com/cdparks/streams#readme
+bug-reports:    https://github.com/cdparks/streams/issues
+maintainer:     christopher.daniel.parks@gmail.com
+copyright:      2021 Christopher Parks
+license:        BSD3
+license-file:   LICENSE
 build-type:     Simple
+extra-source-files:
+    README.md
+
+source-repository head
+  type: git
+  location: https://github.com/cdparks/streams
 
 library
   exposed-modules:

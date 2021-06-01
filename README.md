@@ -12,11 +12,7 @@
 
     ```haskell
     sumSquareEven :: Int -> Int
-    sumSquareEven =
-      Stream.sum
-      . Stream.map square
-      . Stream.filter even
-      . Stream.enumFromTo 1
+    sumSquareEven = sum . map square . filter even . enumFromTo 1
     ```
 
 2. Inline definitions

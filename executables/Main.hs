@@ -2,9 +2,9 @@ module Main
   ( main
   ) where
 
-import Prelude
+import Prelude hiding (enumFromTo, filter, map, sum)
 
-import qualified Stream as Stream
+import Stream
 import Text.Read (readMaybe)
 
 main :: IO ()
@@ -15,8 +15,7 @@ main = do
     Nothing -> main
 
 sumSquareEven :: Int -> Int
-sumSquareEven =
-  Stream.sum . Stream.map square . Stream.filter even . Stream.enumFromTo 1
+sumSquareEven = sum . map square . filter even . enumFromTo 1
 
 square :: Int -> Int
 square x = x * x
