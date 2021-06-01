@@ -8,6 +8,15 @@
 
 ## What's happening to sumSquareEven?
 
+Note:
+
+```haskell
+stream   :: [a] -> Stream a
+unstream :: Stream a -> [a]
+```
+
+_and_ `∀ s. stream (unstream s) = s`
+
 1. Start
 
     ```haskell
