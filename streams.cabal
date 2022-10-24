@@ -1,6 +1,6 @@
 cabal-version: 1.12
 
--- This file has been generated from package.yaml by hpack version 0.34.4.
+-- This file has been generated from package.yaml by hpack version 0.35.0.
 --
 -- see: https://github.com/sol/hpack
 
@@ -58,7 +58,7 @@ library
       TypeFamilies
   ghc-options: -ddump-asm -ddump-cmm -ddump-rule-firings -ddump-rule-rewrites -ddump-simpl -ddump-simpl-iterations -ddump-simpl-stats -ddump-stg -ddump-to-file -dsuppress-coercions -dsuppress-idinfo -dsuppress-module-prefixes -dsuppress-ticks -dsuppress-timestamps -dsuppress-type-applications -dsuppress-uniques
   build-depends:
-      base >=4.7 && <5
+      base >=4.9 && <5.0
   default-language: Haskell2010
 
 executable streams
@@ -96,6 +96,6 @@ executable streams
       TypeFamilies
   ghc-options: -ddump-asm -ddump-cmm -ddump-rule-firings -ddump-rule-rewrites -ddump-simpl -ddump-simpl-iterations -ddump-simpl-stats -ddump-stg -ddump-to-file -dsuppress-coercions -dsuppress-idinfo -dsuppress-module-prefixes -dsuppress-ticks -dsuppress-timestamps -dsuppress-type-applications -dsuppress-uniques -threaded -rtsopts -with-rtsopts=-N
   build-depends:
-      base >=4.7 && <5
+      base >=4.9 && <5.0
     , streams
   default-language: Haskell2010

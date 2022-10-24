@@ -2,4 +2,4 @@
 
 set -eux
 
-find . -name 'Stream.dump*' -or -name 'Main.dump*'
+mkdir -p debug && rm -f debug/* && find .stack-work \( -name 'Stream.dump*' -or -name 'Main.dump*' \) -exec cp -f {} debug/ \;

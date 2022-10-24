@@ -1,6 +1,6 @@
 ## Resources
 
-* [Stream Fusion: From Lists to Streams to Nothing at All](http://citeseer.ist.psu.edu/viewdoc/summary?doi=10.1.1.104.7401) by Duncan Coutts, Roman Leshchinskiy, and Don Stewart
+* [Stream Fusion: From Lists to Streams to Nothing at All](https://www.researchgate.net/publication/221241130_Stream_Fusion_From_Lists_to_Streams_to_Nothing_at_All) by Duncan Coutts, Roman Leshchinskiy, and Don Stewart
 * GHC Docs:
     * [INLINE and NOINLINE](https://downloads.haskell.org/~ghc/latest/docs/html/users_guide/exts/pragmas.html#inline-and-noinline-pragmas)
     * [Rewrite Rules](https://downloads.haskell.org/~ghc/latest/docs/html/users_guide/exts/rewrite_rules.html#rewrite-rules)
@@ -71,7 +71,7 @@ _and_ `∀ s. stream (unstream s) = s`
       . enumFromToStream 1
     ```
 
-5. GHC's regular inlining and optimization turns this into a single loop that operates over unboxed machine ints and only allocates a single `I#` constructor at the end:
+5. GHC's regular inlining and optimization turns this into a single loop that operates over unboxed machine ints that only allocates a single `I#` constructor at the end.
 
     ```haskell
     sumSquareEven :: Int -> Int
@@ -83,4 +83,36 @@ _and_ `∀ s. stream (unstream s) = s`
         1# -> case remInt# acc 2# of
           0# -> go acc (x +# 1)
           1# -> go (acc +# (x *# x)) (x +# 1)
+    ```
+
+6. This loop looks like a recursive function, but it's really just a [jump with arguments](https://www.pauldownen.com/publications/pldi17.pdf):
+
+    ```haskell
+    sumSquareEven :: Int -> Int
+    sumSquareEven (I# n) = joinrec {
+      $wgo :: Int# -> Int# -> Int
+      $wgo acc x = case x <=# n of
+        0# -> I# acc
+        1# -> case remInt# acc 2# of
+          0# -> jump $wgo acc (x +# 1)
+          1# -> jump $wgo (acc +# (x *# x)) (x +# 1)
+    } in jump $wgo 0# 1#
+    ```
+
+7. Finally, this gets inlined directly into `main`:
+
+    ```haskell
+    main :: IO ()
+    main = do
+      line <- getLine                       -- skipping inlined getline
+      case readMaybe line of                -- skipping inlined readMaybe
+        Just (I# n) -> joinrec {
+          $wgo :: Int# -> Int# -> Int
+          $wgo acc x = case x <=# n of
+            0# -> I# acc
+            1# -> case remInt# acc 2# of
+              0# -> jump $wgo acc (x +# 1)
+              1# -> jump $wgo (acc +# (x *# x)) (x +# 1)
+          } in print (jump $wgo 0# 1#)      -- skipping inlined print
+        Nothing -> main
     ```
